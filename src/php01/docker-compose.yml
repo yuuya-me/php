@@ -1,0 +1,24 @@
+
+version: '3.8'
+
+services:
+  php-fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html
+    container_name: php-fpm
+
+  nginx:
+    image: nginx:1.21.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./src:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - php-fpm
+    container_name: php-nginx
+
+
